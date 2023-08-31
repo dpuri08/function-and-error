@@ -1,21 +1,26 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity >=0.7.0 <0.9.0;
 
-contract MetaModule1 {
-    
-    function voting(uint age) public {
-        require(age >= 18, "Minimum Age must be 18");
-        // You are only allowed to vote if your age is above 18.
+
+contract LotteryExample {
+    address public owner;
+    address[] public participants;
+
+    constructor() {
+        owner = msg.sender;
     }
 
-    function calculate(int x, int y) public pure returns (int) {
-        assert(y != 0); // Denominator can't be zero.
-        return x / y;
-    }
+    function joinLottery() public {
 
-    function ludo(uint members) public {
-        if (players > 4) {
-            revert("A group must not exceed 4 players");
+        require(msg.sender != owner, "Owner cannot join the lottery");
+        participants.push(msg.sender);
+
+    //we need atleast 2 member for the lottery to happen
+        assert(participants.length > 1);
+
+    //revert statements prevents additional participants to join once the lottery is full
+        if (participants.length > 10) {
+            revert("Lottery is full");
+        }
     }
 }
-    
